@@ -61,15 +61,35 @@ void read_dht11_dat()
  
 int main( void )
 {
-	printf( "Raspberry Pi wiringPi DHT11 Temperature test program\n" );
- 
+	int temperature_threashold;
+	const int LED_RED = 26;
+	const int LED_BULE=1;
+	
+	pinMode(LED_BULE,OUTPUT);
+	pinMode(LED_RED,OUTPUT);
+	
 	if ( wiringPiSetup() == -1 )
 		exit( 1 );
- 
+	FILE *f
+	f=fopen("temperature-sensor-config.txt","w+");
+	if(f!=NULL)
+	{
+		fscanf(f,%d,&temperature_threashold);
+		printf("Temperature Threshold \n",temperature_threashold);
+		rewind(fp);
+		close(fp);
+	}
+	else
+	{
+		f=fopen("temperature-sensor-config.txt","w+");
+		fputs("25",f);
+		rewind(fp);
+		close(fp);		
+	}
 	while ( 1 )
 	{
-		read_dht11_dat();
-		delay( 1000 ); 
+		//read_dht11_dat();
+		//delay( 1000 ); 
 	}
  
 	return(0);
