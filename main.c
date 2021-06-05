@@ -70,7 +70,7 @@ int main( void )
 	
 	if ( wiringPiSetup() == -1 )
 		exit( 1 );
-	FILE *f
+	FILE *f;
 	f=fopen("temperature-sensor-config.txt","w+");
 	if(f!=NULL)
 	{
