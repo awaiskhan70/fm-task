@@ -77,14 +77,14 @@ int main( void )
 		fscanf(f,"%d",&temperature_threashold);
 		printf("Temperature Threshold \n",temperature_threashold);
 		rewind(f);
-		close(f);
+		fclose(f);
 	}
 	else
 	{
 		f=fopen("temperature-sensor-config.txt","w+");
 		fputs("25",f);
 		rewind(f);
-		close(f);		
+		fclose(f);		
 	}
 	while ( 1 )
 	{
