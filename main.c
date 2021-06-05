@@ -74,11 +74,11 @@ int main( void )
 	if ( wiringPiSetup() == -1 )
 		exit( 1 );
 	FILE *f;
-	f=fopen("temperature-sensor-config.txt","w+");
+	f=fopen("temperature-sensor-config.txt","r");
 	if(f!=NULL)
 	{
 		fscanf(f,"%d",&temperature_threashold);
-		printf("Temperature Threshold \n",temperature_threashold);
+		printf("Temperature Threshold = %d \n",temperature_threashold);
 		rewind(f);
 		fclose(f);
 	}
