@@ -74,7 +74,7 @@ int main( void )
 	f=fopen("temperature-sensor-config.txt","w+");
 	if(f!=NULL)
 	{
-		fscanf(f,%d,&temperature_threashold);
+		fscanf(f,"%d",&temperature_threashold);
 		printf("Temperature Threshold \n",temperature_threashold);
 		rewind(f);
 		close(f);
