@@ -4,6 +4,8 @@
 #include <stdint.h>
 #define MAXTIMINGS	85
 #define DHTPIN		7
+#define LED_BULE	1
+#define LED_RED		26
 int dht11_dat[5] = { 0, 0, 0, 0, 0 };
  
 void read_dht11_dat()
@@ -62,11 +64,12 @@ void read_dht11_dat()
 int main( void )
 {
 	int temperature_threashold;
-	const int LED_RED = 26;
-	const int LED_BULE=1;
+	wiringPiSetup();
+	//const int LED_RED = 26;
+	//const int LED_BULE= 1;
 	
-	pinMode(LED_BULE,OUTPUT);
-	pinMode(LED_RED,OUTPUT);
+	pinMode(LED_BULE , OUTPUT );
+	pinMode(LED_RED , OUTPUT );
 	
 	if ( wiringPiSetup() == -1 )
 		exit( 1 );
@@ -88,8 +91,8 @@ int main( void )
 	}
 	while ( 1 )
 	{
-		//read_dht11_dat();
-		//delay( 1000 ); 
+		read_dht11_dat();
+		delay( 1000 ); 
 	}
  
 	return(0);
