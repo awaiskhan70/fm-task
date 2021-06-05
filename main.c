@@ -13,7 +13,7 @@ void read_dht11_dat()
 	uint8_t laststate	= HIGH;
 	uint8_t counter		= 0;
 	uint8_t j		= 0, i;
-	float	f; 
+	float	f,current_temperature; 
  
 	dht11_dat[0] = dht11_dat[1] = dht11_dat[2] = dht11_dat[3] = dht11_dat[4] = 0;
  
@@ -56,6 +56,8 @@ void read_dht11_dat()
 		f = dht11_dat[2] * 9. / 5. + 32;
 		printf( "Humidity = %d.%d %% Temperature = %d.%d C (%.1f F)\n",
 			dht11_dat[0], dht11_dat[1], dht11_dat[2], dht11_dat[3], f );
+		current_temperature= dht11_dat[3] * 1. / 10. +  dht11_dat[2];
+		printf("current temperature = %f ",current_temperature);
 	}else  {
 		printf( "Data not good, skip\n" );
 	}
@@ -63,11 +65,8 @@ void read_dht11_dat()
  
 int main( void )
 {
-	int temperature_threashold;
+	int temperature_threashold = 25;
 	wiringPiSetup();
-	//const int LED_RED = 26;
-	//const int LED_BULE= 1;
-	
 	pinMode(LED_BULE , OUTPUT );
 	pinMode(LED_RED , OUTPUT );
 	
