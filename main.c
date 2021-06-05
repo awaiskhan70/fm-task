@@ -8,7 +8,7 @@
 #define LED_RED		26
 int dht11_dat[5] = { 0, 0, 0, 0, 0 };
  
-void read_dht11_dat()
+float read_dht11_dat()
 {
 	uint8_t laststate	= HIGH;
 	uint8_t counter		= 0;
@@ -53,19 +53,23 @@ void read_dht11_dat()
 	if ( (j >= 40) &&
 	     (dht11_dat[4] == ( (dht11_dat[0] + dht11_dat[1] + dht11_dat[2] + dht11_dat[3]) & 0xFF) ) )
 	{
-		f = dht11_dat[2] * 9. / 5. + 32;
-		printf( "Humidity = %d.%d %% Temperature = %d.%d C (%.1f F)\n",
+		//f = dht11_dat[2] * 9. / 5. + 32;
+		//printf( "Humidity = %d.%d %% Temperature = %d.%d C (%.1f F)\n",
 			dht11_dat[0], dht11_dat[1], dht11_dat[2], dht11_dat[3], f );
+		
 		current_temperature= dht11_dat[3] * 1. / 10. +  dht11_dat[2];
-		printf("current temperature = %f ",current_temperature);
+		printf("current temperature = %f \n ",current_temperature);
+		
 	}else  {
-		printf( "Data not good, skip\n" );
+		//printf( "Data not good, skip\n" );
 	}
+	return current_temperature;
 }
  
 int main( void )
 {
-	int temperature_threashold = 25;
+	float temperature_threashold = 25.5;
+	float current_temperature;
 	wiringPiSetup();
 	pinMode(LED_BULE , OUTPUT );
 	pinMode(LED_RED , OUTPUT );
@@ -76,7 +80,7 @@ int main( void )
 	f=fopen("temperature-sensor-config.txt","r");
 	if(f!=NULL)
 	{
-		fscanf(f,"%d",&temperature_threashold);
+		fscanf(f,"%f",&temperature_threashold);
 		printf("Temperature Threshold = %d \n",temperature_threashold);
 		rewind(f);
 		fclose(f);
@@ -84,14 +88,22 @@ int main( void )
 	else
 	{
 		f=fopen("temperature-sensor-config.txt","w+");
-		fputs("25",f);
+		fputs("25.5",f);
 		rewind(f);
 		fclose(f);		
 	}
 	while ( 1 )
 	{
-		read_dht11_dat();
-		delay( 1000 ); 
+		current_temperature=read_dht11_dat();
+		if(current_temperature > temperature_threashold)
+		{
+		digitalWrite( LED_RED , HIGH );
+		}
+		else
+		{
+		digitalWrite( LED_RED , LOW );
+		}
+		delay( 2000 ); 
 	}
  
 	return(0);
