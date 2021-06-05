@@ -79,7 +79,7 @@ int main( void )
 	if(f!=NULL)
 	{
 		fscanf(f,"%f",&temperature_threashold);
-		printf("Temperature Threshold = %d \n",temperature_threashold);
+		printf("Temperature Threshold = %f \n",temperature_threashold);
 		rewind(f);
 		fclose(f);
 	}
@@ -96,6 +96,7 @@ int main( void )
 		if(current_temperature > temperature_threashold)
 		{
 		digitalWrite( LED_RED , HIGH );
+			printf("warning temperature is HIGH \n");
 		}
 		else
 		{
